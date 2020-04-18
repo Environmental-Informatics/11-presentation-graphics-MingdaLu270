@@ -97,12 +97,13 @@ if __name__ == '__main__':
     
     ## define a blank dictionary
     DataDF={}
+    MissingValues={}
     
     
     # clip data for the 5 water year period
     for file in fileName.keys():
-        DataDF[file] = ReadData(fileName[file])
-        DataDF[file] = ClipData(DataDF[file],startDate='2014-10-01',endDate='2019-09-30')
+        DataDF[file],MissingValues[file] = ReadData(fileName[file])
+        DataDF[file],MissingValues[file] = ClipData(DataDF[file],startDate='2014-10-01',endDate='2019-09-30')
         
         # plot data
         plt.plot(DataDF[file]['Discharge'],label=riverName[file])
