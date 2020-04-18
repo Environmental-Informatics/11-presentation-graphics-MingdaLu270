@@ -12,7 +12,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as stats
-from matplotlib.pyplot import MultipleLocator
 
 def ReadData( fileName ):
     """This function takes a filename as input, and returns a dataframe with
@@ -36,29 +35,29 @@ def ReadData( fileName ):
     DataDF = DataDF.set_index('Date')
     
     # replace negative value by nan
-    DataDF['Discharge']=DataDF['Discharge'].mask(DataDF['Discharge']<0, np.nan)
+    DataDF['Discharge']=DataDF['Discharge'].mask(DataDF['Discharge']<0,np.nan)
     
     # quantify the number of missing values
-    # MissingValues = DataDF["Discharge"].isna().sum()
+    MissingValues = DataDF['Discharge'].isna().sum()
     
     
-    return( DataDF )
+    return( DataDF, MissingValues)
 
 def ClipData( DataDF, startDate, endDate ):
     """This function clips the given time series dataframe to a given range 
     of dates. Function returns the clipped dataframe and and the number of 
     missing values."""
     
-    # locate the required data
+    # locate the required data   
     #DataDF.index=pd.to_datetime(DataDF.index)
-    #period=(DataDF.index >= startDate) & (DataDF <= endDate)
-    #DataDF=DataDF.loc[period]
+    #mask=(DataDF.index >= startDate) & (DataDF.index <= endDate)
+    #DataDF=DataDF.loc[mask]
     
     DataDF=DataDF.loc[startDate:endDate]
     # Missing values for the specific period of data
-    # MissingValues=DataDF["Discharge"].isna().sum()
+    MissingValues=DataDF["Discharge"].isna().sum()
     
-    return( DataDF )
+    return( DataDF, MissingValues )
 
 
 def ReadMetrics( fileName ):
